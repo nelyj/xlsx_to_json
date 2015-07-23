@@ -4,6 +4,7 @@ require 'pry-rails'
 require 'json'
 require 'fileutils'
 
+# Nombre de la primera columna en el archivo excel.
 attributes = {
 	startup: 'startup',
 	website: 'website',
@@ -23,7 +24,10 @@ attributes = {
 	logo: 'logo'
 }
 
+#Crea un archivo json vacio
 FileUtils.touch('demoday.json')
+
+#Abre el archivo excel.
 book = Roo::Spreadsheet.open("demoday.xlsx")
 sheet = book.sheet(0)
 count = 1
