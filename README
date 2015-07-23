@@ -1,9 +1,22 @@
-COMO USAR
+# XLSX to JSON
 
-1. Cambia los parametros en el archivo
-2. Agrega el nombre de tu archivo
-3.Entra a tu consola: (Terminal de Mac, linux o windows) y escribe
+Aplicación de línea de comandos que transforma archivos tipo Excel (.xlsx) a formato JSON.
 
-ruby excel_to_json.rb
+## Instrucciones
 
-4. Disfruta tu excel en modo json >D
+1. Instala las dependencias necesarias utilizando bundle:
+
+	bundle install
+
+2. Ejecuta el programa pasando como argumento el nombre del archivo .xlsx (asegurate que esté en el mismo directorio):
+
+	ruby excel_to_json.rb nombre-del-archivo.xlsx 
+
+3. Disfruta!
+
+## Demo
+
+![XLSX to JSON Demo](screenshot.png)
+
+
+

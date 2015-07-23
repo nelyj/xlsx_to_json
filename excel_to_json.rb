@@ -24,15 +24,20 @@ attributes = {
 	logo: 'logo'
 }
 
+#Lee el nombre del archivo desde la consola
+xlsx_name = ARGV[0]
+#Obtiene el nombre del archivo sin extension
+json_name = File.basename( xlsx_name, ".*" )
 #Crea un archivo json vacio
-FileUtils.touch('demoday.json')
+json_name = json_name+'.json'
+FileUtils.touch(json_name)
 
 #Abre el archivo excel.
-book = Roo::Spreadsheet.open("demoday.xlsx")
+book = Roo::Spreadsheet.open(xlsx_name)
 sheet = book.sheet(0)
 count = 1
 
-File.open("demoday.json", "w") do |f|
+File.open(json_name, "w") do |f|
 	sheet.each(attributes) do |hash|
 		if(count > 1)
 			f.write(JSON.pretty_generate(hash))
