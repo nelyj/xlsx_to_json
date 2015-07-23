@@ -23,7 +23,6 @@ attributes = {
 	logo: 'logo'
 }
 
-
 FileUtils.touch('demoday.json')
 book = Roo::Spreadsheet.open("demoday.xlsx")
 sheet = book.sheet(0)
@@ -32,8 +31,11 @@ count = 1
 File.open("demoday.json", "w") do |f|
 	sheet.each(attributes) do |hash|
 		if(count > 1)
-			f.write(hash.to_json)
-			f.write(",")
+			f.write(JSON.pretty_generate(hash))
+			if(count < sheet.last_row)
+				f.write(",")
+			end
+			f.write("\n")
 		end
 
 		count += 1

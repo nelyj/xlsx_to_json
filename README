@@ -1,0 +1,9 @@
+COMO USAR
+
+1. Cambia los parametros en el archivo
+2. Agrega el nombre de tu archivo
+3.Entra a tu consola: (Terminal de Mac, linux o windows) y escribe
+
+ruby excel_to_json.rb
+
+4. Disfruta tu excel en modo json >D
