@@ -38,6 +38,7 @@ sheet = book.sheet(0)
 count = 1
 
 File.open(json_name, "w") do |f|
+	f.write("[")
 	sheet.each(attributes) do |hash|
 		if(count > 1)
 			f.write(JSON.pretty_generate(hash))
@@ -46,7 +47,7 @@ File.open(json_name, "w") do |f|
 			end
 			f.write("\n")
 		end
-
 		count += 1
 	end
+	f.write("]")
 end
