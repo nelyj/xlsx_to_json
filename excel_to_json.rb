@@ -24,30 +24,33 @@ attributes = {
 	logo: 'logo'
 }
 
-#Lee el nombre del archivo desde la consola
-xlsx_name = ARGV[0]
-#Obtiene el nombre del archivo sin extension
-json_name = File.basename( xlsx_name, ".*" )
-#Crea un archivo json vacio
-json_name = json_name+'.json'
-FileUtils.touch(json_name)
+ARGV.each do |i|
+	#Lee el nombre del archivo desde la consola
+	xlsx_name = i
+	#Obtiene el nombre del archivo sin extension
+	json_name = File.basename( xlsx_name, ".*" )
+	#Crea un archivo json vacio
+	json_name = json_name+'.json'
+	FileUtils.touch(json_name)
 
-#Abre el archivo excel.
-book = Roo::Spreadsheet.open(xlsx_name)
-sheet = book.sheet(0)
-count = 1
+	#Abre el archivo excel.
+	book = Roo::Spreadsheet.open(xlsx_name)
+	sheet = book.sheet(0)
+	count = 1
 
-File.open(json_name, "w") do |f|
-	f.write("[")
-	sheet.each(attributes) do |hash|
-		if(count > 1)
-			f.write(JSON.pretty_generate(hash))
-			if(count < sheet.last_row)
-				f.write(",")
+	File.open(json_name, "w") do |f|
+		f.write("[")
+		sheet.each(attributes) do |hash|
+			if(count > 1)
+				f.write(JSON.pretty_generate(hash))
+				if(count < sheet.last_row)
+					f.write(",")
+				end
+				f.write("\n")
 			end
-			f.write("\n")
+			count += 1
 		end
-		count += 1
+		f.write("]")
 	end
-	f.write("]")
 end
+
