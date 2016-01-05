@@ -4,25 +4,7 @@ require 'pry-rails'
 require 'json'
 require 'fileutils'
 
-# Nombre de la primera columna en el archivo excel.
-attributes = {
-	startup: 'startup',
-	website: 'website',
-	country: 'country',
-	industry: 'industry',
-	leader: 'leader',
-	leader_name: 'leader_name',
-	member_1: 'member_1',
-	member_1_name: 'member_1_name',
-	member_1_email: 'member_1_email',
-	member_2: 'member_2',
-	member_2_name: 'member_2_name',
-	member_2_email: 'member_2_email',
-	description: 'description',
-	metrics: 'metrics',
-	investment_looking_raise: 'investment_looking_raise',
-	logo: 'logo'
-}
+
 
 ARGV.each do |i|
 	#Lee el nombre del archivo desde la consola
@@ -35,22 +17,26 @@ ARGV.each do |i|
 
 	#Abre el archivo excel.
 	book = Roo::Spreadsheet.open(xlsx_name)
-	sheet = book.sheet(0)
-	count = 1
-
-	File.open(json_name, "w") do |f|
-		f.write("[")
+	
+	final_json = {}
+	
+	book.sheets.each do |sheet_name|
+		sheet = book.sheet(sheet_name)
+		
+		#solo si la primer columna tiene las referencias
+		attributes = Hash[sheet.row(1).map{|x| [x,x]}]
+		
+		first_row = true
 		sheet.each(attributes) do |hash|
-			if(count > 1)
-				f.write(JSON.pretty_generate(hash))
-				if(count < sheet.last_row)
-					f.write(",")
-				end
-				f.write("\n")
+			if(!first_row)
+				(final_json[sheet_name] ||= []) << hash
 			end
-			count += 1
+			first_row = false
 		end
-		f.write("]")
+	end
+	
+	File.open(json_name, "w") do |f|
+		f.write(JSON.pretty_generate(final_json))
 	end
 end
 
